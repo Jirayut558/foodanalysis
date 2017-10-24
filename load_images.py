@@ -87,10 +87,11 @@ def _images_get_all_items(page):
 ############### Main ###################
 photopath = "/Users/jirayutk/Project/CV/Project/Photo/steak/"
 url = "https://www.google.co.th/search?client=safari&rls=en&dcr=0&biw=1264&bih=772&tbm=isch&q=%E0%B8%AA%E0%B9%80%E0%B8%95%E0%B9%87%E0%B8%81%E0%B8%AB%E0%B8%A1%E0%B8%B9&sa=X&ved=0ahUKEwj3tcCSuInXAhWHFJQKHRSMDPwQhyYIIg"
+url = "https://www.google.co.th/search?client=safari&rls=en&dcr=0&biw=1264&bih=772&tbm=isch&q=%E0%B8%AA%E0%B9%80%E0%B8%95%E0%B9%87%E0%B8%81%E0%B8%AB%E0%B8%A1%E0%B8%B9&sa=X&ved=0ahUKEwj3tcCSuInXAhWHFJQKHRSMDPwQhyYIIg"
 raw_html = (download_page(url))
 items = _images_get_all_items(raw_html)
 
-
+print(items)
 
 k=0
 while k<len(items):

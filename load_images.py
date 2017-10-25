@@ -104,9 +104,7 @@ for food in foods:
     url = food['link']
     raw_html = (download_page(url))
     items = _images_get_all_items(raw_html)
-
-    print(items)
-
+    print(len(items))
     k=0
     while k<len(items):
         try:

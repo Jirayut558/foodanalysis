@@ -5,7 +5,7 @@
 # Import Libraries
 
 # coding: UTF-8
-
+import csv
 import time  # Importing the time library to check the time of code execution
 import sys  # Importing the System Library
 import os
@@ -24,7 +24,16 @@ keywords = [' high resolution']
 ########### End of Editing ###########
 
 
-
+def loadLinks():
+    foods = []
+    with open('links.csv') as f:
+        reader = csv.reader(f, delimiter=',')
+        for row in reader:
+            # print(row)
+            # item = []
+            food = { 'type': row[0], 'link': row[1] }
+            foods.append(food)
+    return foods
 
 # Downloading entire Web Document (Raw Page Content)
 def download_page(url):
@@ -84,28 +93,33 @@ def _images_get_all_items(page):
             page = page[end_content:]
     return items
 
+foods = loadLinks()
+for food in foods:
+    print(food['link'])
 ############### Main ###################
-photopath = "Photo/steak/"
-url = "https://www.google.co.th/search?client=safari&rls=en&dcr=0&biw=1264&bih=772&tbm=isch&q=%E0%B8%AA%E0%B9%80%E0%B8%95%E0%B9%87%E0%B8%81%E0%B8%AB%E0%B8%A1%E0%B8%B9&sa=X&ved=0ahUKEwj3tcCSuInXAhWHFJQKHRSMDPwQhyYIIg"
-url = "https://www.google.co.th/search?client=safari&rls=en&dcr=0&biw=1264&bih=772&tbm=isch&q=%E0%B8%AA%E0%B9%80%E0%B8%95%E0%B9%87%E0%B8%81%E0%B8%AB%E0%B8%A1%E0%B8%B9&sa=X&ved=0ahUKEwj3tcCSuInXAhWHFJQKHRSMDPwQhyYIIg"
-raw_html = (download_page(url))
-items = _images_get_all_items(raw_html)
+    photopath = "Photos/" + food['type'] + '/'
+    print(photopath)
+    if not os.path.exists(photopath):
+        os.makedirs(photopath)
+    url = food['link']
+    raw_html = (download_page(url))
+    items = _images_get_all_items(raw_html)
 
-print(items)
+    print(items)
 
-k=0
-while k<len(items):
-    try:
-        req = Request(items[k], headers={"User-Agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"})
-        response = urlopen(req, None, 15)
-        output_file = open( photopath + str(k + 1) + ".jpg", 'wb')
+    k=0
+    while k<len(items):
+        try:
+            req = Request(items[k], headers={"User-Agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"})
+            response = urlopen(req, None, 15)
+            output_file = open( photopath + str(k + 1) + ".jpg", 'wb')
 
-        data = response.read()
-        output_file.write(data)
-        response.close();
-        k+=1
-    except Exception as e:
-        k+=1
-        print(e)
+            data = response.read()
+            output_file.write(data)
+            response.close();
+            k+=1
+        except Exception as e:
+            k+=1
+            print(e)
 
-############## Main Program ############
+# ############## Main Program ############
